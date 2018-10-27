@@ -4,6 +4,7 @@ const MotorController = require('robotois-servo-controller');
 const LEDStrip = require('robotois-ws2811');
 const led = new LEDStrip(16);
 const Gpio = require('onoff').Gpio;
+const IP = '192.168.50.27';
 
 const colors = {
   primary: '#00d1b2',
@@ -25,7 +26,7 @@ let id = nm.machineIdSync({original: true});
 const clientId = 'SoccerBot-01';
 const myTopic = `SoccerBots/${clientId}`;
 
-const client = mqtt.connect('mqtt://192.168.15.11', { clientId });
+const client = mqtt.connect(`mqtt://${IP}`, { clientId });
 
 //console.log(clientId);
 
