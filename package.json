@@ -9,5 +9,9 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "onoff": "^3.2.2",
+    "robotois-servo-controller": "git+https://github.com/Robotois/robotois-motors-v2.git"
+  }
 }

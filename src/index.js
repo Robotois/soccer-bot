@@ -1,6 +1,6 @@
 const  nm = require('node-machine-id');
 const mqtt = require('mqtt');
-const MotorController = require('../../robotois-servo-controller');
+const MotorController = require('robotois-servo-controller');
 
 const motorController = new MotorController();
 
