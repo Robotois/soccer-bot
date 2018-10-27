@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mqtt": "^2.18.8",
+    "node-machine-id": "^1.1.10",
     "onoff": "^3.2.2",
-    "robotois-servo-controller": "git+https://github.com/Robotois/robotois-motors-v2.git"
+    "robotois-servo-controller": "git+https://github.com/Robotois/robotois-motors-v2.git",
+    "robotois-ws2811": "git+https://github.com/Robotois/robotois-ws2811.git"
   }
 }
