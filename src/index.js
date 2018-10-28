@@ -39,7 +39,7 @@ client.on('message', function(topic, message) {
   const msgStr = message.toString();
   const msgObj = JSON.parse(msgStr);
   const { x, y, r, k, l } = msgObj;
-  console.log(msgObj);
+  //console.log(msgObj);
   motorController.drive(msgObj.x, msgObj.y, msgObj.r);
   if (k !== undefined && k == 1 && kickTimeout == false) {
     solenoid.writeSync(1);
