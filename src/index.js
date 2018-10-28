@@ -22,8 +22,7 @@ let kickTimeout = false;
 const motorController = new MotorController();
 
 let id = nm.machineIdSync({original: true});
-// const clientId = `SoccerBot-${id}` || 'SoccerBot-01';
-const clientId = 'SoccerBot-01';
+const clientId = `SoccerBot-${id}` || 'SoccerBot-01';
 const myTopic = `SoccerBots/${clientId}`;
 
 const client = mqtt.connect(`mqtt://${IP}`, { clientId });
