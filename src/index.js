@@ -6,6 +6,7 @@ const MotorController = require('robotois-servo-controller');
 const LEDStrip = require('robotois-ws2811');
 const Gpio = require('onoff').Gpio;
 let config = require('./config.json');
+const { BROKER_IP } = require('./constants');
 
 const colors = {
   primary: '#00d1b2',
@@ -23,8 +24,8 @@ const solenoid = new Gpio(17, 'out');
 let kickTimeout = false;
 const motorController = new MotorController();
 let id;
+const { team, number } = config;
 
-const brokerAdd = '192.168.50.27';
 let clientId;
 let myTopic;
 let client;
@@ -32,7 +33,6 @@ let celebrateTimeout = false;
 
 function clientInit() {
   solenoid.writeSync(0);
-  const { team, number } = config;
 
   if (team !== null && number !== null) {
     clientId = `SoccerBot-${team}-${number}`;
@@ -42,7 +42,7 @@ function clientInit() {
   }
 
   myTopic = `SoccerBots/${clientId}`;
-  client = mqtt.connect(`mqtt://${brokerAdd}`, { clientId });
+  client = mqtt.connect(`mqtt://${BROKER_IP}`, { clientId });
   client.on('connect', function () {
     client.subscribe(myTopic);
     client.subscribe(`${myTopic}/config`);
@@ -93,7 +93,8 @@ function driveBot({ x, y, r, k }) {
 
 function score({ action, increment}) {
   if (action == 'goal' && increment == 1 && celebrateTimeout == false) {
-    leds.blinkAll(colors[team]);
+    // console.log('Celebrate the Goal!');
+    leds.allBlink(colors[team]);
     celebrateTimeout = setTimeout(() => {
       leds.allOff();
       clearTimeout(celebrateTimeout);
