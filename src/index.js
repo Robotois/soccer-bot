@@ -24,7 +24,8 @@ const solenoid = new Gpio(17, 'out');
 let kickTimeout = false;
 const motorController = new MotorController();
 let id;
-const { team, number } = config;
+let team;
+let number;
 
 let clientId;
 let myTopic;
@@ -33,7 +34,8 @@ let celebrateTimeout = false;
 
 function clientInit() {
   solenoid.writeSync(0);
-
+  team = config.team;
+  number = config.number;
   if (team !== null && number !== null) {
     clientId = `SoccerBot-${team}-${number}`;
   } else {
