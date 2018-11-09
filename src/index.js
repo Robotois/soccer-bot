@@ -101,7 +101,7 @@ function score({ action, increment}) {
       leds.allOff();
       clearTimeout(celebrateTimeout);
       celebrateTimeout = false;
-    }, 3000);
+    }, 5000);
   }
 }
 clientInit();
