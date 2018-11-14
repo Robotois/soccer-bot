@@ -97,7 +97,7 @@ function driveBot({ x, y, r, k }) {
 function score({ action, increment}) {
   if (action == 'goal' && increment == 1 && celebrateTimeout == false) {
     // console.log('Celebrate the Goal!');
-    leds.allBlink(colors[purple]);
+    leds.allBlink(colors.purple);
     celebrateTimeout = setTimeout(() => {
       leds.allOff();
       clearTimeout(celebrateTimeout);
