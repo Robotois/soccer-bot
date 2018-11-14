@@ -17,9 +17,10 @@ const colors = {
   error: '#ff3860',
   yellow: '#FFC107',
   white: '#F5F5F5',
+  purple: '#9C27B0',
 };
 
-const leds = new LEDStrip(16);
+const leds = new LEDStrip(25);
 const solenoid = new Gpio(17, 'out');
 let kickTimeout = false;
 const motorController = new MotorController();
@@ -96,12 +97,12 @@ function driveBot({ x, y, r, k }) {
 function score({ action, increment}) {
   if (action == 'goal' && increment == 1 && celebrateTimeout == false) {
     // console.log('Celebrate the Goal!');
-    leds.allBlink(colors[team]);
+    leds.allBlink(colors[purple]);
     celebrateTimeout = setTimeout(() => {
       leds.allOff();
       clearTimeout(celebrateTimeout);
       celebrateTimeout = false;
-    }, 3000);
+    }, 5000);
   }
 }
 clientInit();
