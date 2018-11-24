@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const nm = require('node-machine-id');
 const mqtt = require('mqtt');
-const MotorController = require('robotois-servo-controller');
+const MotorController = require('robotois-motors-v2');
 const LEDStrip = require('robotois-ws2811');
 const Gpio = require('onoff').Gpio;
 let config = require('./config.json');
@@ -106,3 +106,22 @@ function score({ action, increment}) {
   }
 }
 clientInit();
+
+function release() {
+  leds.allOff();
+  motorController.release();
+}
+process.on('SIGINT', () => {
+  release();
+  process.exit();
+});
+
+process.on('SIGTERM', () => {
+  release();
+  process.exit();
+});
+
+process.on('exit', () => {
+  release();
+  process.exit();
+});
