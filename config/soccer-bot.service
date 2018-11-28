@@ -1,0 +1,15 @@
+[Unit]
+Description=Robotois soccer-bot application
+
+[Service]
+WorkingDirectory=/home/pi/soccer-bot
+ExecStart=/usr/local/bin/node src/index.js
+Restart=always
+RestartSec=1
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=soccer-bot
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
