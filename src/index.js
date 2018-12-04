@@ -8,6 +8,8 @@ const Gpio = require('onoff').Gpio;
 let config = require('./config.json');
 const { BROKER_IP } = require('./constants');
 
+const { setPWMs, runner } = require('./pid-controller');
+
 const colors = {
   primary: '#00d1b2',
   link: '#3273dc',
@@ -34,6 +36,7 @@ let client;
 let celebrateTimeout = false;
 
 function clientInit() {
+  runner((y, r) => motorController.drive(0, y, r));
   solenoid.writeSync(0);
   team = config.team;
   number = config.number;
@@ -83,15 +86,15 @@ function setConfig(msgObj) {
 }
 
 function driveBot({ x, y, r, k }) {
-  motorController.drive(x, y, r);
-  if (k !== undefined && k == 1 && kickTimeout == false) {
-    solenoid.writeSync(1);
-    kickTimeout = setTimeout(() => {
-      solenoid.writeSync(0);
-      clearTimeout(kickTimeout);
-      kickTimeout = false;
-    }, 500);
-  }
+  setPWMs([y, r]);
+  // if (k !== undefined && k == 1 && kickTimeout == false) {
+  //   solenoid.writeSync(1);
+  //   kickTimeout = setTimeout(() => {
+  //     solenoid.writeSync(0);
+  //     clearTimeout(kickTimeout);
+  //     kickTimeout = false;
+  //   }, 500);
+  // }
 };
 
 function score({ action, increment}) {
