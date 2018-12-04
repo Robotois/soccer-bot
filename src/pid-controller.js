@@ -49,7 +49,7 @@ const runner = (drive) => {
   initialize([0.35, 0.35], [0, 0], [0.45, 0.45])
   setInterval(() => {
     iterate();
-    console.log(currentPWM);
+    // console.log(currentPWM);
     drive(currentPWM[0].toFixed(2), currentPWM[1].toFixed(2));
   }, 200);
 }
