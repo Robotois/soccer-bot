@@ -49,8 +49,10 @@ const runner = (drive) => {
   initialize([0.35, 0.35], [0, 0], [0.45, 0.45])
   setInterval(() => {
     iterate();
-    // console.log(currentPWM);
-    drive(currentPWM[0].toFixed(2), currentPWM[1].toFixed(2));
+    const y = currentPWM[0] > 0.15 || currentPWM[0] < -0.15 ? currentPWM[0] : 0;
+    const r = currentPWM[1] > 0.15 || currentPWM[1] < -0.15 ? currentPWM[1] : 0;
+    // console.log({y, r});
+    drive(y, r);
   }, 200);
 }
 
