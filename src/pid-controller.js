@@ -46,7 +46,7 @@ const iterate = () => {
 }
 
 const runner = (drive) => {
-  initialize([0.35, 0.35], [0, 0], [0.45, 0.45])
+  initialize([0.45, 0.45], [0, 0], [0.60, 0.60])
   setInterval(() => {
     iterate();
     const y = currentPWM[0] > 0.15 || currentPWM[0] < -0.15 ? currentPWM[0] : 0;
