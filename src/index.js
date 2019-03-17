@@ -20,8 +20,7 @@ const colors = {
   purple: '#9C27B0',
 };
 
-const leds = new LEDStrip(25);
-const solenoid = new Gpio(17, 'out');
+const leds = new LEDStrip(16);
 let kickTimeout = false;
 const motorController = new MotorController();
 let id;
@@ -34,7 +33,6 @@ let client;
 let celebrateTimeout = false;
 
 function clientInit() {
-  solenoid.writeSync(0);
   team = config.team;
   number = config.number;
   if (team !== null && number !== null) {
@@ -46,65 +44,22 @@ function clientInit() {
 
   myTopic = `SoccerBots/${clientId}`;
   client = mqtt.connect(`mqtt://${BROKER_IP}`, { clientId });
+  
   client.on('connect', function () {
     client.subscribe(myTopic);
-    client.subscribe(`${myTopic}/config`);
-    client.subscribe(`score-boards/${team}`);
   });
+
   client.on('message', function(topic, message) {
     const msgStr = message.toString();
     const msgObj = JSON.parse(msgStr);
-    if(topic.includes('config')) {
-      setConfig(msgObj);
-      return;
-    }
-    if(topic.includes('score')) {
-      score(msgObj);
-      return;
-    }
-    // console.log(msgObj);
     driveBot(msgObj);
-  });
-}
-
-function setConfig(msgObj) {
-  config = msgObj;
-  console.log('New Config:', config);
-  client.end();
-  client = null;
-  setTimeout(() => {
-    console.log('Restarting Client');
-    clientInit();
-  }, 3000);
-  fs.writeFile(path.resolve(__dirname, './config.json'), JSON.stringify(msgObj), (err) => {
-    if (err) throw err;
-    console.log('Config file saved!');
   });
 }
 
 function driveBot({ x, y, r, k }) {
   motorController.drive(x, y, r);
-  if (k !== undefined && k == 1 && kickTimeout == false) {
-    solenoid.writeSync(1);
-    kickTimeout = setTimeout(() => {
-      solenoid.writeSync(0);
-      clearTimeout(kickTimeout);
-      kickTimeout = false;
-    }, 500);
-  }
 };
 
-function score({ action, increment}) {
-  if (action == 'goal' && increment == 1 && celebrateTimeout == false) {
-    // console.log('Celebrate the Goal!');
-    leds.allBlink(colors.purple);
-    celebrateTimeout = setTimeout(() => {
-      leds.allOff();
-      clearTimeout(celebrateTimeout);
-      celebrateTimeout = false;
-    }, 5000);
-  }
-}
 clientInit();
 
 function release() {
