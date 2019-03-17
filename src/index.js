@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const nm = require('node-machine-id');
 const mqtt = require('mqtt');
-const MotorController = require('robotois-servo-controller');
+const MotorController = require('robotois-motors-v2');
 const LEDStrip = require('robotois-ws2811');
 const Gpio = require('onoff').Gpio;
 let config = require('./config.json');
@@ -17,6 +17,7 @@ const colors = {
   error: '#ff3860',
   yellow: '#FFC107',
   white: '#F5F5F5',
+  purple: '#9C27B0',
 };
 
 const leds = new LEDStrip(16);
@@ -60,3 +61,22 @@ function driveBot({ x, y, r, k }) {
 };
 
 clientInit();
+
+function release() {
+  leds.allOff();
+  motorController.release();
+}
+process.on('SIGINT', () => {
+  release();
+  process.exit();
+});
+
+process.on('SIGTERM', () => {
+  release();
+  process.exit();
+});
+
+process.on('exit', () => {
+  release();
+  process.exit();
+});
